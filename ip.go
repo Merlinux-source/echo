@@ -219,7 +219,10 @@ func ExtractIPDirect() IPExtractor {
 }
 
 func extractIP(req *http.Request) string {
-	ra, _, _ := net.SplitHostPort(req.RemoteAddr)
+	ra, _, err := net.SplitHostPort(req.RemoteAddr)
+	if err != nil {
+		return err.Error() // This is better then failing silently
+	}
 	return ra
 }
 
